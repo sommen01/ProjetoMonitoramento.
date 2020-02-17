@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
       children: <Widget>[
         Scaffold(
             appBar: AppBar(
+              backgroundColor: Color(0xff339582),
             title: Text('Pagina inicial'),
           ),
           body: HomePage(),

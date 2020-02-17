@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projetoeder/src/widgets/custom_drawer.dart';
+import 'package:projetoeder/src/charts/Profundidade.dart';
+import 'package:projetoeder/src/charts/loc.dart';
+import 'package:projetoeder/src/charts/temperautura_chart.dart';
 
 
 
@@ -8,14 +10,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
- 
-      body: Container(  
-             color: Colors.red,
-        
+      body: Container(
+        height: 2300,
+        child: Column(
+          children : <Widget>[
+              Profundidade(),
+              Temperatura(),
+              Localizacao()
+          ],
+          ),
         ),
     );
   }
 }
 
 
- 
+  
