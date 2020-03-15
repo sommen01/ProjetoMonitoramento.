@@ -1,55 +1,68 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-class NonzeroBoundMeasureAxis extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
+const request  ='http://sistema.e7sr.online/api/v1/profundidade/one';
 
-  NonzeroBoundMeasureAxis(this.seriesList, {this.animate});
 
-  /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory NonzeroBoundMeasureAxis.withSampleData() {
-    return new NonzeroBoundMeasureAxis(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
-- 
 
-  @override
-  Widget build(BuildContext context) {
-    return new charts.TimeSeriesChart(seriesList,
-        animate: animate,
-        // Provide a tickProviderSpec which does NOT require that zero is
-        // included.
-        primaryMeasureAxis: new charts.NumericAxisSpec(
-            tickProviderSpec:''
-                new charts.BasicNumericTickProviderSpec(zeroBound: false)));
-  }
+Future<Map> getData() async{
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<MyRow, DateTime>> _createSampleData() {
-    final data = [
-      new MyRow(new DateTime(2020, 9, 25), -1030),
-      new MyRow(new DateTime(2017, 9, 26), -3133),
+  http.Response response = await http.get(request);
 
-    ];
+  return json.decode(response.body);
 
-    return [
-      new charts.Series<MyRow, DateTime>(
-        id: 'Headcount',
-        domainFn: (MyRow row, _) => row.timeStamp,
-        measureFn: (MyRow row, _) => row.headcount,
-        data: data,
-      )
-    ];
-  }
 }
 
-/// Sample time series data type.
-class MyRow {
-  final DateTime timeStamp;
-  final int headcount;
-  MyRow(this.timeStamp, this.headcount);
+class LocGrafico extends StatefulWidget {
+  @override
+  _LocGraficoState createState() => _LocGraficoState();
+}
+
+class _LocGraficoState extends State<LocGrafico> {
+  String pgn;
+  String sid;
+  String depth;
+  String timestamp;
+  int id;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<Map>(
+        future: getData(),
+        builder: (context, snapshot){
+          switch(snapshot.connectionState){
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Center(
+                child: Text('Carregando dados...')
+              );
+              break;
+              default :
+              if(snapshot.hasError){
+                return Center(
+                child: Text('Erro ao carregar dados...')
+              );
+              }
+              else{
+
+                   pgn = snapshot.data["pgn"];
+                   sid = snapshot.data["sid"];
+                   depth = snapshot.data["depth"];
+                   timestamp = snapshot.data["timestamp"];
+                   id = snapshot.data["id"];
+                return Container(
+                  color: Colors.green,
+                );
+              }
+          }
+
+        },
+      )
+    );
+  }
 }

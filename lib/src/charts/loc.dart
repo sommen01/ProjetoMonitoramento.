@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:projetoeder/src/charts/loc_chart.dart';
 
+import 'loc_chart.dart';
+import 'loc_chart.dart';
+
 
 class Localizacao extends StatelessWidget {
   @override
@@ -29,9 +32,8 @@ class Localizacao extends StatelessWidget {
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
               width: double.infinity,
-            child: 
-                NonzeroBoundMeasureAxis.withSampleData()
-             ),
+              child: LocGrafico(),
+            )            
           ],
         ));
 

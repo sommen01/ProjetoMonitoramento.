@@ -10,16 +10,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: 2300,
-        child: Column(
-          children : <Widget>[
-              Profundidade(),
-              Temperatura(),
-              Localizacao()
-          ],
+      body: SingleChildScrollView(
+              child: Container(
+          child: Column(
+            children : <Widget>[
+                Profundidade(),
+                Temperatura(),
+                Localizacao()
+            ],
+            ),
           ),
-        ),
+      ),
     );
   }
 }
